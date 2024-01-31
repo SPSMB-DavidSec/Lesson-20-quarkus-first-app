@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+>
+<h:head>
+    <title>Home page</title>
+</h:head>
+<h:body>
+    <h:form>
+        <p:spinner id="spinner" value="#{testView.number}"/>
+
+
+        <div class="card" style="position: absolute; margin-left: 10%; width: 80%; ">
+            <p:dataTable var="person" value="#{testView.persons}" paginator="true">
+                <p:column headerText="Id">
+                    <h:outputText value="#{person.id}"/>
+                </p:column>
+
+                <p:column headerText="Name">
+                    <h:outputText value="#{person.name}"/>
+                </p:column>
+
+                <p:column headerText="Age">
+                    <h:outputText value="#{person.age}"/>
+                </p:column>
+            </p:dataTable>
+        </div>
+    </h:form>
+</h:body>
+</html>
