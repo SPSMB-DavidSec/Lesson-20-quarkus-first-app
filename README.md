@@ -58,4 +58,3 @@ Easily start your Reactive RESTful Web Services
 [Hibernate ORM with Panache](https://quarkus.io/guides/hibernate-orm-panache)
 
 [Primefaces](https://www.primefaces.org/showcase/index.xhtml?jfwid=a5686)
-)
