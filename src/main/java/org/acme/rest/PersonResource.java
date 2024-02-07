@@ -1,31 +1,49 @@
 package org.acme.rest;
 
 import jakarta.inject.Inject;
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.acme.dao.PersonRepository;
 import org.acme.model.Person;
 
 import java.util.List;
-import java.util.Random;
 
 @Path("/persons")
 public class PersonResource {
-    @Inject
-    EntityManager em;
 
+    @Inject
+    PersonRepository personRepository;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     public Response list() {
-        List<Person> persons = em.createQuery("select p from Person p", Person.class).getResultList();
+        List<Person> persons = personRepository.listAll();
         return Response.ok().entity(persons).build();
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("{id}")
+    public Response getById(@PathParam("id") Long id) {
+        Person person = personRepository.findById(id);
+        return Response.ok().entity(person).build();
+    }
+
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("{id}")
+    public Response deleteById(@PathParam("id") Long id) {
+        personRepository.deleteById(id);
+        return Response.ok().entity("ok").build();
+    }
+
+
+
+
 }
