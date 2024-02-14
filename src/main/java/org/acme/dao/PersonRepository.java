@@ -13,6 +13,7 @@ import java.util.List;
 public class PersonRepository implements PanacheRepository<Person> {
 
  public List<Person> listByName(String name){
+
      return find("name", name).list();
  }
 
