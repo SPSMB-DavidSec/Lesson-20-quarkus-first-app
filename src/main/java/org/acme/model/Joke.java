@@ -61,6 +61,14 @@ public class Joke implements Serializable {
         return ratingList;
     }
 
+    public double getAvgRating(){
+        long sum = 0;
+        for (Rating r:ratingList) {
+            sum += r.getRating();
+        }
+        return sum/(double) ratingList.size();
+    }
+
     @Override
     public String toString() {
         return "Joke{" +
