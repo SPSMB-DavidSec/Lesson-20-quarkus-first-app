@@ -11,7 +11,7 @@ import java.util.List;
 public class Joke implements Serializable {
 
     @Id
-    @Column(name = "joke_id")
+    @Column(name = "joke-id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     String text;
@@ -55,6 +55,10 @@ public class Joke implements Serializable {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public List<Rating> getRatingList() {
+        return ratingList;
     }
 
     @Override
