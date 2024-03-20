@@ -3,6 +3,7 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
 
 >
@@ -39,17 +40,28 @@
             </p:tab>
         </p:accordionPanel>
 
+        <div class="row">
+            <div class="col-3"> <!-- Left menu-->
+                    <p:dataList value="#{jokeView.categories}" var="category">
+                        <p:link action="/index" value="#{category.name}">
+                            <f:param name="category" value="#{category.name}" />
+                        </p:link>
+                    </p:dataList>
+                </div>
 
-        <div class="container text-center">
-            <div class="row">
-                <c:forEach items="#{jokeView.jokes}" var="joke">
-                    <div class="col-3">
-                        <h2><h:outputText value="#{joke.text}"/></h2>
-                        <p><h:outputText value="#{joke.author}"/></p>
-                        <p><h:outputText value="#{jokeView.getAvgRating(joke)}"/></p>
+                <div class="col-9"> <!-- Content-->
+                    <div class="container text-center">
+                        <div class="row">
+                            <c:forEach items="#{jokeView.jokes}" var="joke">
+                                <div class="col-3">
+                                    <h2><h:outputText value="#{joke.text}"/></h2>
+                                    <p><h:outputText value="#{joke.author}"/></p>
+                                    <p><h:outputText value="#{jokeView.getAvgRating(joke)}"/></p>
+                                </div>
+                            </c:forEach>
+                        </div>
                     </div>
-                </c:forEach>
-            </div>
+                </div>
         </div>
     </h:form>
 </h:body>

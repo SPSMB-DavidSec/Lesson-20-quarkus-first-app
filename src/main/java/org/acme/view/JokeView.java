@@ -2,6 +2,7 @@ package org.acme.view;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.transaction.Transactional;
@@ -13,6 +14,7 @@ import org.acme.model.Category;
 import org.acme.model.Joke;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Named
@@ -25,13 +27,28 @@ public class JokeView {
     @Inject
     CategoryRepository categoryRepository;
 
-
     List<Joke> jokes;
+    List<Category> categories;
     JokeDTO newJoke;
 
     @PostConstruct
     public void init(){
-        jokes = jokeRepository.listAll();
+/*        Map<String, String> params = FacesContext.getCurrentInstance().
+                getExternalContext().getRequestParameterMap();
+
+        String categoryName = params.get("category");
+        System.out.println(categoryName);*/
+
+        categories = categoryRepository.listAll();
+        System.out.println(categories);
+
+        Optional<Category> category = categoryRepository.listByName("Krátké vtipy");
+        if (category.isPresent()){
+            jokes = jokeRepository.findByCategoryName("Krátké vtipy");
+        }
+        else {
+            jokes = jokeRepository.listAll();
+        }
         newJoke = new JokeDTO();
     }
     public double getAvgRating(Joke joke){
@@ -76,4 +93,11 @@ public class JokeView {
         this.newJoke = newJoke;
     }
 
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
 }
