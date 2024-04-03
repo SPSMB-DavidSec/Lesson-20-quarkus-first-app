@@ -1,6 +1,7 @@
 package org.acme.model;
 
 import jakarta.persistence.*;
+import org.apache.commons.codec.binary.Base64;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ public class Joke implements Serializable {
     long id;
     String text;
     String author;
+    @Column(columnDefinition = "blob")
+    byte[] image;
     @OneToMany(mappedBy = "rating")
     List<Rating> ratingList = new ArrayList<>();
     @ManyToOne
@@ -23,6 +26,17 @@ public class Joke implements Serializable {
     Category category;
 
     public Joke() {
+    }
+
+    public String getImage() {
+        if (image != null){
+            return new String(Base64.encodeBase64(image));
+        }
+        return null;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     public void setId(long id) {

@@ -4,6 +4,15 @@ public class JokeDTO {
     String text;
     String author;
     String category;
+    byte[] image;
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 
     public String getText() {
         return text;

@@ -3,6 +3,7 @@ package org.acme.view;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.transaction.Transactional;
@@ -12,13 +13,15 @@ import org.acme.dao.RatingRepository;
 import org.acme.dto.JokeDTO;
 import org.acme.model.Category;
 import org.acme.model.Joke;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.file.UploadedFile;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Named
-@RequestScoped
+@ViewScoped
 public class JokeView {
     @Inject
     JokeRepository jokeRepository;
@@ -30,6 +33,8 @@ public class JokeView {
     List<Joke> jokes;
     List<Category> categories;
     JokeDTO newJoke;
+
+    UploadedFile file;
 
     @PostConstruct
     public void init(){
@@ -60,6 +65,7 @@ public class JokeView {
         Joke joke = new Joke();
         joke.setText(newJoke.getText());
         joke.setAuthor(newJoke.getAuthor());
+        joke.setImage(newJoke.getImage());
         Optional<Category> categoryOptional = categoryRepository.listByName(newJoke.getCategory());
         if (categoryOptional.isPresent()){
             joke.setCategory(categoryOptional.get());
@@ -76,6 +82,13 @@ public class JokeView {
         init();
     }
 
+
+    public void handleFileUpload(FileUploadEvent event) {
+        String fileName = event.getFile().getFileName();
+        byte[] content = event.getFile().getContent();
+        System.out.println(content);
+        newJoke.setImage(content);
+    }
 
     public List<Joke> getJokes() {
         return jokes;
@@ -99,5 +112,13 @@ public class JokeView {
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
     }
 }

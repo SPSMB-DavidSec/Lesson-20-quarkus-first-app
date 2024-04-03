@@ -34,6 +34,8 @@
                             <p:outputLabel for="@next" value="Category"/>
                             <p:inputText id="input-category" value="#{jokeView.newJoke.category}"/>
                         </div>
+                        <p:fileUpload listener="#{jokeView.handleFileUpload}" mode="advanced"
+                                      auto="true" sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
                         <p:commandButton value="Save" action="#{jokeView.saveJoke}" update="@form"></p:commandButton>
                     </div>
                 </div>
@@ -57,6 +59,7 @@
                                     <h2><h:outputText value="#{joke.text}"/></h2>
                                     <p><h:outputText value="#{joke.author}"/></p>
                                     <p><h:outputText value="#{jokeView.getAvgRating(joke)}"/></p>
+                                    <img src="data:image/png;base64,#{joke.image}" width="80%"></img>
                                 </div>
                             </c:forEach>
                         </div>
