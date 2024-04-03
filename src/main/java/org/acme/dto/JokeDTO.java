@@ -5,6 +5,7 @@ public class JokeDTO {
     String author;
     String category;
     byte[] image;
+    String path;
 
     public byte[] getImage() {
         return image;
@@ -12,6 +13,14 @@ public class JokeDTO {
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public String getText() {

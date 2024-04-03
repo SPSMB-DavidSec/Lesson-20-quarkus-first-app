@@ -13,6 +13,8 @@ import org.acme.dao.RatingRepository;
 import org.acme.dto.JokeDTO;
 import org.acme.model.Category;
 import org.acme.model.Joke;
+import org.acme.utils.FileUtils;
+import org.apache.commons.codec.binary.Base64;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
 
@@ -65,7 +67,7 @@ public class JokeView {
         Joke joke = new Joke();
         joke.setText(newJoke.getText());
         joke.setAuthor(newJoke.getAuthor());
-        joke.setImage(newJoke.getImage());
+        joke.setPath(newJoke.getPath());
         Optional<Category> categoryOptional = categoryRepository.listByName(newJoke.getCategory());
         if (categoryOptional.isPresent()){
             joke.setCategory(categoryOptional.get());
@@ -87,7 +89,17 @@ public class JokeView {
         String fileName = event.getFile().getFileName();
         byte[] content = event.getFile().getContent();
         System.out.println(content);
-        newJoke.setImage(content);
+        String path = FileUtils.saveFile(content, fileName);
+        newJoke.setPath(path);
+    }
+
+    public String loadImage(Joke joke) {
+        String path = joke.getPath();
+        if (path != null) {
+            byte[] image = FileUtils.loadFile(path);
+            return new String(Base64.encodeBase64(image));
+        }
+        return null;
     }
 
     public List<Joke> getJokes() {

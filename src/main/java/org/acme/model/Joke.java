@@ -24,6 +24,7 @@ public class Joke implements Serializable {
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     Category category;
+    String path;
 
     public Joke() {
     }
@@ -75,12 +76,20 @@ public class Joke implements Serializable {
         return ratingList;
     }
 
-    public double getAvgRating(){
+    public double getAvgRating() {
         long sum = 0;
-        for (Rating r:ratingList) {
+        for (Rating r : ratingList) {
             sum += r.getRating();
         }
-        return sum/(double) ratingList.size();
+        return sum / (double) ratingList.size();
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     @Override
